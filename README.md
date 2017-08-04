@@ -41,3 +41,11 @@
 > login: root
 > password: toortoor
 > ```
+
+## Build a docker
+if you want to build an instance that works with an external MySQL.
+
+```
+ docker build -f DockerfileNoMysql .
+```
+a sample deployment script is in envi

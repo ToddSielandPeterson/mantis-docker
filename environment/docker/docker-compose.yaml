@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  mantis:
+    image: "docker/mantis:1.2.19"
+    ports:
+      - 8080:80
+    environment:
+      - DB_HOST =
+      - DB_USERNAME =
+      - DB_PASSWORD =
+      - DB_NAME =
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == worker]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 180s
