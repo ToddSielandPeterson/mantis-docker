@@ -11,6 +11,9 @@ services:
       - DB_USERNAME =
       - DB_PASSWORD =
       - DB_NAME =
+      - SMTP_HOST =
+      - SMTP_USER =
+      - SMPT_PASSWORD =
     deploy:
       mode: replicated
       replicas: 1
