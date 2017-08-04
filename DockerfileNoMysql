@@ -54,7 +54,8 @@ ADD ./environment/mantis/*.php /var/www/mantis/
 COPY environment/mantis/config_inc_envvars.php config_inc.php
 COPY environment/docker/init.sh /shared/environment/init.sh
 RUN cd /var/www/mantis \
- && chmod 755 /shared/environment/init.sh
+ && chmod 755 /shared/environment/init.sh \
+ && mkdir /shared/site
 
 WORKDIR /shared
 
