@@ -46,6 +46,6 @@
 if you want to build an instance that works with an external MySQL.
 
 ```
- docker build -f DockerfileNoMysql .
+ docker build -t docker/mantis:1.2.19 -f DockerfileNoMysql .
 ```
 a sample deployment script is in envi

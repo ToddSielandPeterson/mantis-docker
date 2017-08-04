@@ -18,4 +18,3 @@ $g_smtp_host = getenv('SMTP_HOST');
 
 $g_log_level = LOG_EMAIL | LOG_EMAIL_RECIPIENT | LOG_FILTERING | LOG_AJAX;
 $g_log_destination = 'file:/shared/logs/mantisbt.log';
-?>
