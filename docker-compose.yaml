@@ -13,7 +13,7 @@ services:
       - DB_NAME=
       - SMTP_HOST=
       - SMTP_USER=
-      - SMPT_PASSWORD=
+      - SMTP_PASSWORD=
       - EMAIL_SENDER_ADDRESS=
       - EMAIL_WEBMASTER_ADDRESS=
       - EMAIL_RETURN_ADDRESS=
