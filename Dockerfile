@@ -1,9 +1,7 @@
 FROM centos:6
 MAINTAINER itspoma <itspoma@gmail.com>
 
-ENV MYSQL_USER root
-ENV MYSQL_PASSWORD toortoor
-ENV MANTIS_VERSION 1.2.19
+ENV MANTIS_VERSION 2.5.1
 
 RUN yum clean all \
  && yum install -y git curl mc tar
@@ -29,24 +27,6 @@ RUN echo "" >> /etc/php.ini \
  && sed 's/^display_startup_errors.*/display_startup_errors = On/' -i /etc/php.ini \
  && sed 's/^upload_max_filesize.*/upload_max_filesize = 8M/' -i /etc/php.ini
 
-# mysql install
-RUN yum install -y mysql mysql-server
-
-# mysql configure
-RUN sed 's/^user.*/user=root/' -i /etc/my.cnf \
- && sed 's/^datadir.*/datadir=\/shared\/environment\/mysql\/data/' -i /etc/my.cnf \
- && sed 's/^log-error.*/log-error=\/shared\/logs\/mysqld.log/' -i /etc/my.cnf
-
-ADD ./environment/mysql /shared/environment/mysql
-ADD ./logs /shared/logs
-
-RUN true \
- && rm -rf /shared/environment/mysql/data \
- && mysql_install_db \
- && service mysqld restart \
- && mysqladmin -u ${MYSQL_USER} password "${MYSQL_PASSWORD}" \
- && mysql -u ${MYSQL_USER} -p${MYSQL_PASSWORD} -e "SHOW DATABASES;"
-
 # mantis env vars
 ENV MANTIS_URL http://jaist.dl.sourceforge.net/project/mantisbt/mantis-stable/${MANTIS_VERSION}/mantisbt-${MANTIS_VERSION}.tar.gz
 ENV MANTIS_FILE mantisbt.tar.gz
@@ -58,11 +38,22 @@ RUN mkdir -p ${MANTIS_DIR} \
  && curl -fSL ${MANTIS_URL} -o ${MANTIS_FILE} \
  && tar -xz --strip-components=1 -f ${MANTIS_FILE} \
  && rm -rf ${MANTIS_FILE} \
- && chmod 0777 -R /var/www/mantis \
- && touch /shared/logs/mantisbt.log && chmod 0777 /shared/logs/mantisbt.log
+ && chmod 0777 -R /var/www/mantis
 
-#
-ADD ./environment/mantis/*.php /var/www/mantis/
+RUN mkdir /shared \
+ && mkdir /shared/logs \
+ && chmod 0777 -R /shared/logs \
+ && touch /shared/logs/mantisbt.log \
+ && chmod 0777 /shared/logs/mantisbt.log
+
+#ADD ./environment/mantis/*.php /var/www/mantis/config
+
+#ADD ./environment/mantis/config_inc_envvars.php /var/www/mantis/config/config_inc.php
+#ADD ./environment/mantis/config_inc_smtp_envvars.php /var/www/mantis/config/config_inc_smtp.php
+ADD ./environment/docker/init.sh /shared/environment/init.sh
+RUN cd /var/www/mantis \
+ && chmod 755 /shared/environment/init.sh \
+ && mkdir /shared/site
 
 WORKDIR /shared
 

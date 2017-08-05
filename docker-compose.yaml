@@ -7,13 +7,17 @@ services:
     ports:
       - 8080:80
     environment:
-      - DB_HOST =
-      - DB_USERNAME =
-      - DB_PASSWORD =
-      - DB_NAME =
-      - SMTP_HOST =
-      - SMTP_USER =
-      - SMPT_PASSWORD =
+      - DB_HOST=
+      - DB_USERNAME=
+      - DB_PASSWORD=
+      - DB_NAME=
+      - SMTP_HOST=
+      - SMTP_USER=
+      - SMPT_PASSWORD=
+      - EMAIL_SENDER_ADDRESS=
+      - EMAIL_WEBMASTER_ADDRESS=
+      - EMAIL_RETURN_ADDRESS=
+      - CRYPTO_SALT=
     deploy:
       mode: replicated
       replicas: 1
